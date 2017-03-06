@@ -1,0 +1,15 @@
+body {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+div {
+	padding: .5em;
+	padding-bottom: 2em;
+	text-align: center;
+}
+
+div img {
+	border-radius: 1em;
+}
