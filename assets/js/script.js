@@ -1,9 +1,12 @@
 const houses = document.querySelector('.houses');
-const results = [];
-const places = ['amsterdam', 'amstelveen', 'diemen'];
-let placeChoice = '';
 const placeButtons = document.querySelectorAll('.cities button');
-const choiceButtons = document.querySelectorAll('button');
+const defineButton = document.querySelector('.who button');
+const who = document.querySelector('.who');
+const cities = document.querySelector('.cities');
+const options = document.querySelector('.options');
+const places = ['Amsterdam', 'Amstelveen', 'Diemen'];
+let placeChoice = '';
+const results = [];
 
 
 function getHousesByQuery(city, music) {
@@ -23,12 +26,12 @@ function selectPlace() {
 }
 
 function selectChoice() {
-	if (this.textContent === 'muzikant') {
+	if (this.textContent === 'Muziek maken') {
 		getHousesByQuery(placeChoice, '/garage');
 	}
 }
 
-choiceButtons[3].addEventListener('click', selectChoice);
+defineButton.addEventListener('click', selectChoice);
 placeButtons.forEach(button => button.addEventListener('click', selectPlace));
 
 
@@ -54,4 +57,17 @@ function mainDom(house) {
 function renderToDom(elements) {
 	houses.innerHTML = elements;
 }
+
+function toggle() {
+	who.classList.remove('hide');
+	cities.classList.add('hide');
+}
+
+function showHouses() {
+	options.classList.add('hide');
+}
+
+defineButton.addEventListener('click', showHouses);
+placeButtons.forEach(button => button.addEventListener('click', toggle));
+
 

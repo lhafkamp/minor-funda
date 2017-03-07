@@ -1,7 +1,41 @@
+@font-face {
+	font-family: 'funda';
+	src: url('../fonts/proximanova-regular.woff');
+}
+
+h1,
+p,
+button {
+	padding: 0;
+	margin: 0;
+	font-family: 'funda', sans-serif;
+}
+
+h1 {
+	font-size: 3em;
+	margin-bottom: 1em;
+}
+
+button {
+	margin: .2em;
+}
+
 .houses {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	align-items: center;
+}
+
+.options {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.options div {
+	padding-bottom: 8em;
 }
 
 div {
@@ -10,6 +44,27 @@ div {
 	text-align: center;
 }
 
-div img {
-	border-radius: 1em;
+button {
+	align-self: center;
+	transition: all .2s;
+	margin-top: 1em;
+	border: 2px solid #F7A100;
+	background: 0;
+	padding: .8em;
+	font-size: 1em;
+	font-weight: 400;
+	width: 9em;
+	color: #F7A100;
+	border-radius: .3em;
+	cursor: pointer;
+}
+
+button:hover {
+	background: #F7A100;
+	color: white;
+	border-color: #F7A100;
+}
+
+.hide {
+	display: none;
 }
