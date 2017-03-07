@@ -14,7 +14,9 @@ body {
 
 h1 {
 	font-size: 3em;
-	margin-bottom: 1em;
+	background: #F7A100;
+	color: white;
+	padding: .2em;
 }
 
 button {
@@ -48,6 +50,10 @@ button {
 
 	div img {
 		width: 18em;
+	}
+
+	h1 {
+		margin-bottom: 1em;
 	}
 }
 

@@ -37,7 +37,7 @@ function selectChoice() {
 	} else if (this.textContent === 'Natuurmens') {
 		getHousesByQuery(placeChoice, '', '/tuin', '');
 	} else if (this.textContent === 'Blut') {
-		getHousesByQuery(placeChoice, '', '', '/0-800/woonhuis/appartement');
+		getHousesByQuery(placeChoice, '', '', '/0-899/woonhuis/appartement');
 	}
 }
 
@@ -83,5 +83,4 @@ function showHouses() {
 
 defineButtons.forEach(button => button.addEventListener('click', showHouses));
 placeButtons.forEach(button => button.addEventListener('click', toggle));
-
 
