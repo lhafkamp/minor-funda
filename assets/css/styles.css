@@ -5,7 +5,8 @@
 
 h1,
 p,
-button {
+button,
+body {
 	padding: 0;
 	margin: 0;
 	font-family: 'funda', sans-serif;
@@ -18,9 +19,11 @@ h1 {
 
 button {
 	margin: .2em;
+	cursor: pointer;
 }
 
 .houses {
+	margin-top: 2em;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
@@ -38,10 +41,25 @@ button {
 	padding-bottom: 8em;
 }
 
+@media (max-width: 30em) {
+	.options div button {
+		width: 80vw;
+	}
+
+	div img {
+		width: 18em;
+	}
+}
+
 div {
 	padding: .5em;
 	padding-bottom: 2em;
 	text-align: center;
+}
+
+div img:hover {
+	opacity: .8;
+	cursor: pointer;
 }
 
 button {
@@ -59,10 +77,20 @@ button {
 	cursor: pointer;
 }
 
-button:hover {
+button:hover,
+button:focus {
+	outline: none;
 	background: #F7A100;
 	color: white;
 	border-color: #F7A100;
+}
+
+.results {
+	text-align: center;
+	color: white;
+	font-size: 2em;
+	padding: .5em;
+	background: #F7A100;
 }
 
 .hide {
