@@ -5,10 +5,11 @@ const who = document.querySelector('.who');
 const cities = document.querySelector('.cities');
 const options = document.querySelector('.options');
 const ditpast = document.querySelector('.results');
-const places = ['Amsterdam', 'Amstelveen', 'Diemen'];
 let placeChoice = '';
+let i = 0;
 const results = [];
 const geoData = [];
+const YouThoughtTheLastGeoDataWasNewWellThisIsEvenNewer = [];
 
 // get coordinates
 function getCoords(pos, resolve) {
@@ -36,11 +37,27 @@ function getThreeLocations() {
 	const newGeoData = geoData
 		.map(data => data.adminName2)
 		.filter((item, index, array) => array.indexOf(item) === index);
-	if (newGeoData.length > 3) {
-		newGeoData.length = 3;
-	}
-	console.log(newGeoData);
+
+	cutDownToThree(newGeoData);
+	convertButtons(newGeoData);
+	YouThoughtTheLastGeoDataWasNewWellThisIsEvenNewer.push(...newGeoData);
 }
+
+// make sure there won't be more than 3 locations in the array
+function cutDownToThree(data) {
+	if (data.length > 3) {
+		data.length = 3;
+	}
+}
+
+// fill every button with a location nearby
+function convertButtons(data) {
+	placeButtons.forEach(place => {
+		place.textContent = data[i];
+		i++;
+	});
+}
+
 
 // fetch the data with changeable parameters
 function getHousesByQuery(city, music, nature, broke) {
@@ -52,7 +69,7 @@ function getHousesByQuery(city, music, nature, broke) {
 
 // store the selected place
 function selectPlace() {
-	places.forEach((place) => {
+	YouThoughtTheLastGeoDataWasNewWellThisIsEvenNewer.forEach((place) => {
 		if (this.textContent === place) {
 			placeChoice = this.textContent;
 		}
