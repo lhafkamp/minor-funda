@@ -8,13 +8,30 @@ const ditpast = document.querySelector('.results');
 const places = ['Amsterdam', 'Amstelveen', 'Diemen'];
 let placeChoice = '';
 const results = [];
+const geoData = [];
 
-// TODO reverse geocoding
-// TODO places API
+fetch('http://api.geonames.org/findNearbyPostalCodesJSON?lat=52.367902&lng=4.910852&maxRows=100&username=lhafkamp')
+	.then(data => data.json())
+	.then(data => geoData.push(...data.postalCodes))
+	.then(data => getThreeLocations());
+
+
+function getThreeLocations() {
+	const newGeoData = geoData
+		.map(data => data.adminName2)
+		.filter((item, index, array) => array.indexOf(item) === index);
+	if (newGeoData.length >= 6) {
+    	newGeoData.length = 3;
+	}
+	console.log(newGeoData);
+}
+
+// navigator.geolocation.getCurrentPosition() {
+//     console.log(location);
+// });
 
 // fetch the data with changeable parameters
 function getHousesByQuery(city, music, nature, broke) {
-	console.log(city, music);
 	fetch(`http://funda.kyrandia.nl/feeds/Aanbod.svc/json/${APIKEY}/?type=huur&zo=/${city}${music}${nature}${broke}/&page=1&pagesize=25`)
 		.then(data => data.json())
 		.then(data => results.push(...data.Objects))
