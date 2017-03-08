@@ -1,3 +1,4 @@
+let i = 0;
 const houses = document.querySelector('.houses');
 const placeButtons = document.querySelectorAll('.cities button');
 const defineButtons = document.querySelectorAll('.who button');
@@ -6,10 +7,14 @@ const cities = document.querySelector('.cities');
 const options = document.querySelector('.options');
 const ditpast = document.querySelector('.results');
 let placeChoice = '';
-let i = 0;
 const results = [];
 const geoData = [];
-const YouThoughtTheLastGeoDataWasNewWellThisIsEvenNewer = [];
+const newGeoData = [];
+
+// promise to resolve the geolocation
+const geoPromise = new Promise((resolve, reject) => {
+	navigator.geolocation.getCurrentPosition(pos => getCoords(pos, resolve));
+});
 
 // get coordinates
 function getCoords(pos, resolve) {
@@ -19,45 +24,38 @@ function getCoords(pos, resolve) {
 	});
 }
 
-// promise to resolve the geolocation
-const geoPromise = new Promise((resolve, reject) => {
-	navigator.geolocation.getCurrentPosition(pos => getCoords(pos, resolve));
-});
-
 // if promise is resolved get the data from the API
 geoPromise
 	.then(pos => `${geoUrl}&lat=${pos.x}&lng=${pos.y}`)
 	.then(str => fetch(str)
 		.then(response => response.json())
 		.then(data => geoData.push(...data.postalCodes))
-		.then(data => getThreeLocations()));
+		.then(data => getThreeLocations()))
+		.then(data => cutDownToThree())
+		.then(data => convertButtons());
 
-// cut it down to the 3 nearest locations
-function getThreeLocations() {
-	const newGeoData = geoData
+// cut it down to the 3 nearest locations and push it into a global array
+function getThreeLocations(allData) {
+	allData = geoData
 		.map(data => data.adminName2)
-		.filter((item, index, array) => array.indexOf(item) === index);
-
-	cutDownToThree(newGeoData);
-	convertButtons(newGeoData);
-	YouThoughtTheLastGeoDataWasNewWellThisIsEvenNewer.push(...newGeoData);
+		.filter((item, index, array) => array.indexOf(item) === index)
+		.map(data => newGeoData.push(data));
 }
 
 // make sure there won't be more than 3 locations in the array
-function cutDownToThree(data) {
-	if (data.length > 3) {
-		data.length = 3;
+function cutDownToThree() {
+	if (newGeoData.length > 3) {
+		newGeoData.length = 3;
 	}
 }
 
 // fill every button with a location nearby
-function convertButtons(data) {
-	placeButtons.forEach(place => {
-		place.textContent = data[i];
+function convertButtons() {
+	placeButtons.forEach((place) => {
+		place.textContent = newGeoData[i];
 		i++;
 	});
 }
-
 
 // fetch the data with changeable parameters
 function getHousesByQuery(city, music, nature, broke) {
@@ -69,7 +67,7 @@ function getHousesByQuery(city, music, nature, broke) {
 
 // store the selected place
 function selectPlace() {
-	YouThoughtTheLastGeoDataWasNewWellThisIsEvenNewer.forEach((place) => {
+	newGeoData.forEach((place) => {
 		if (this.textContent === place) {
 			placeChoice = this.textContent;
 		}

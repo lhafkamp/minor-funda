@@ -21,6 +21,10 @@ body {
 	}
 }
 
+body {
+	height: 100vh;
+}
+
 span {
 	opacity: 0;
 	animation: points 1s infinite;
