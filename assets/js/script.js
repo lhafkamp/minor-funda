@@ -10,29 +10,41 @@ let placeChoice = '';
 const results = [];
 const geoData = [];
 
-fetch('http://api.geonames.org/findNearbyPostalCodesJSON?lat=52.367902&lng=4.910852&maxRows=100&username=lhafkamp')
-	.then(data => data.json())
-	.then(data => geoData.push(...data.postalCodes))
-	.then(data => getThreeLocations());
+// get coordinates
+function getCoords(pos, resolve) {
+	resolve({
+		x: pos.coords.latitude,
+		y: pos.coords.longitude,
+	});
+}
 
+// promise to resolve the geolocation
+const geoPromise = new Promise((resolve, reject) => {
+	navigator.geolocation.getCurrentPosition(pos => getCoords(pos, resolve));
+});
 
+// if promise is resolved get the data from the API
+geoPromise
+	.then(pos => `${geoUrl}&lat=${pos.x}&lng=${pos.y}`)
+	.then(str => fetch(str)
+		.then(response => response.json())
+		.then(data => geoData.push(...data.postalCodes))
+		.then(data => getThreeLocations()));
+
+// cut it down to the 3 nearest locations
 function getThreeLocations() {
 	const newGeoData = geoData
 		.map(data => data.adminName2)
 		.filter((item, index, array) => array.indexOf(item) === index);
-	if (newGeoData.length >= 6) {
-    	newGeoData.length = 3;
+	if (newGeoData.length > 3) {
+		newGeoData.length = 3;
 	}
 	console.log(newGeoData);
 }
 
-// navigator.geolocation.getCurrentPosition() {
-//     console.log(location);
-// });
-
 // fetch the data with changeable parameters
 function getHousesByQuery(city, music, nature, broke) {
-	fetch(`http://funda.kyrandia.nl/feeds/Aanbod.svc/json/${APIKEY}/?type=huur&zo=/${city}${music}${nature}${broke}/&page=1&pagesize=25`)
+	fetch(`${fundaUrl}${APIKEY}/?type=huur&zo=/${city}${music}${nature}${broke}/&page=1&pagesize=25`)
 		.then(data => data.json())
 		.then(data => results.push(...data.Objects))
 		.then(data => showData());
