@@ -1,15 +1,18 @@
 let i = 0;
-const houses = document.querySelector('.houses');
-const placeButtons = document.querySelectorAll('.cities button');
-const defineButtons = document.querySelectorAll('.who button');
-const who = document.querySelector('.who');
-const cities = document.querySelector('.cities');
-const options = document.querySelector('.options');
-const ditpast = document.querySelector('.results');
+let buyOrRentChoice = '';
 let placeChoice = '';
 const results = [];
 const geoData = [];
 const newGeoData = [];
+const houses = document.querySelector('.houses');
+const placeButtons = document.querySelectorAll('.cities button');
+const buyOrRentButtons = document.querySelectorAll('.buyrent button');
+const defineButtons = document.querySelectorAll('.who button');
+const buyrent = document.querySelector('.buyrent');
+const cities = document.querySelector('.cities');
+const who = document.querySelector('.who');
+const options = document.querySelector('.options');
+const ditpast = document.querySelector('.results');
 
 // promise to resolve the geolocation
 const geoPromise = new Promise((resolve, reject) => {
@@ -58,8 +61,8 @@ function convertButtons() {
 }
 
 // fetch the data with changeable parameters
-function getHousesByQuery(city, music, nature, broke) {
-	fetch(`${fundaUrl}${APIKEY}/?type=huur&zo=/${city}${music}${nature}${broke}/&page=1&pagesize=25`)
+function getHousesByQuery(buyrent, city, music, nature, broke) {
+	fetch(`${fundaUrl}${APIKEY}/?type=${buyrent}&zo=/${city}${music}${nature}${broke}/&page=1&pagesize=25`)
 		.then(data => data.json())
 		.then(data => results.push(...data.Objects))
 		.then(data => showData());
@@ -74,17 +77,30 @@ function selectPlace() {
 	});
 }
 
-// send the choice to the fetch parameters
-function selectChoice() {
-	if (this.textContent === 'Muzikant') {
-		getHousesByQuery(placeChoice, '/garagebox/garage-carport/vrijstaande-garage/', '', '');
-	} else if (this.textContent === 'Natuurmens') {
-		getHousesByQuery(placeChoice, '', '/tuin', '');
-	} else if (this.textContent === 'Blut') {
-		getHousesByQuery(placeChoice, '', '', '/0-899/woonhuis/appartement');
+// store if they want to buy or rent
+function buyOrRent() {
+	if (this.textContent.includes('open')) {
+		buyOrRentChoice = 'koop';
+		defineButtons[2].innerHTML = 'Voorzichtig';
+	} else {
+		buyOrRentChoice = 'huur';
 	}
 }
 
+// send the choice to the fetch parameters
+function selectChoice() {
+	if (this.textContent === 'Muzikant') {
+		getHousesByQuery(buyOrRentChoice, placeChoice, '/garagebox/garage-carport/vrijstaande-garage/', '', '');
+	} else if (this.textContent === 'Natuurmens') {
+		getHousesByQuery(buyOrRentChoice, placeChoice, '', '/tuin', '');
+	} else if (this.textContent === 'Blut') {
+		getHousesByQuery(buyOrRentChoice, placeChoice, '', '', '/0-899/woonhuis/appartement');
+	} else if (this.textContent === 'Voorzichtig') {
+		getHousesByQuery(buyOrRentChoice, placeChoice, '', '', '/0-200000');
+	}
+}
+
+buyOrRentButtons.forEach(button => button.addEventListener('click', buyOrRent));
 defineButtons.forEach(button => button.addEventListener('click', selectChoice));
 placeButtons.forEach(button => button.addEventListener('click', selectPlace));
 
@@ -103,7 +119,7 @@ function houseDom(house) {
 		<div>
 			<img src="${house.FotoMedium}">
 			<p>${house.Adres}</p>
-			<p>€${house.Prijs.Huurprijs}</p>
+			<p>€${house.Prijs.Huurprijs === null ? house.Prijs.Koopprijs : house.Prijs.Huurprijs}</p>
 		</div>
 	`;
 }
@@ -114,9 +130,14 @@ function renderToDom(elements) {
 }
 
 // show/hide the options on select
-function toggle() {
-	who.classList.remove('hide');
+function showBuyOrRent() {
 	cities.classList.add('hide');
+	buyrent.classList.remove('hide');
+}
+
+function showOptions() {
+	buyrent.classList.add('hide');
+	who.classList.remove('hide');
 }
 
 // hide the choices and show the houses
@@ -125,6 +146,7 @@ function showHouses() {
 	ditpast.classList.remove('hide');
 }
 
+placeButtons.forEach(button => button.addEventListener('click', showBuyOrRent));
+buyOrRentButtons.forEach(button => button.addEventListener('click', showOptions));
 defineButtons.forEach(button => button.addEventListener('click', showHouses));
-placeButtons.forEach(button => button.addEventListener('click', toggle));
 
