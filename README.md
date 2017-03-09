@@ -2,15 +2,15 @@
 Assignment for Funda
 
 ## the app
+###Finds 3 cities near you depending on your location
 <img src="assets/images/appscreens/loading.png">
-<p>Finds 3 cities near you depending on your location</p>
+###Filters on your selected city
 <img src="assets/images/appscreens/pickcity.png"> 
-<p>Filters on your selected city</p>
+###Filters on wether you want to buy or rent a house
 <img src="assets/images/appscreens/pickbuy.png">
-<p>Filters on wether you want to buy or rent a house</p>
+###Filters on whatever defines you the most
 <img src="assets/images/appscreens/pickwho.png">
-<p>Filters on whatever defines you the most</p>
+###Shows the results
 <img src="assets/images/appscreens/result.png">
-<p>Shows the results</p>
+###Whenever there are no results
 <img src="assets/images/appscreens/error.png">
-<p>Whenever there are no results</p>
