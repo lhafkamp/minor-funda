@@ -1,16 +1,20 @@
 let i = 0;
+let j = 0;
+
 let buyOrRentChoice = '';
 let placeChoice = '';
+
 const results = [];
 const geoData = [];
 const newGeoData = [];
-const houses = document.querySelector('.houses');
+
 const placeButtons = document.querySelectorAll('.cities button');
 const buyOrRentButtons = document.querySelectorAll('.buyrent button');
 const defineButtons = document.querySelectorAll('.who button');
 const buyrent = document.querySelector('.buyrent');
 const cities = document.querySelector('.cities');
 const who = document.querySelector('.who');
+const houses = document.querySelector('.houses');
 const options = document.querySelector('.options');
 const ditpast = document.querySelector('.results');
 
@@ -35,7 +39,8 @@ geoPromise
 		.then(data => geoData.push(...data.postalCodes))
 		.then(data => getThreeLocations()))
 		.then(data => cutDownToThree())
-		.then(data => convertButtons());
+		.then(data => convertButtons())
+		.catch(error => console.log(error));
 
 // cut it down to the 3 nearest locations and push it into a global array
 function getThreeLocations(allData) {
@@ -66,24 +71,8 @@ function getHousesByQuery(buy, city, music, nature, broke) {
 		.then(data => data.json())
 		.then(data => results.push(...data.Objects))
 		.then(data => showData())
-		.then(data => noResult());
-}
-
-// if there are no houses found, render a 'no-result' message
-function noResult() {
-	if (results.length < 1) {
-		houses.innerHTML = errorDom();
-	}
-}
-
-// returns this html as a template string
-function errorDom() {
-	return `
-		<div>
-			<h2>Geen huizen gevonden, jammer zeg</h2>
-			<button onclick="window.location.reload()">Opniew zoeken</button>
-		</div>
-	`;
+		.then(data => noResult())
+		.catch(error => console.log(error));
 }
 
 // store the selected place
@@ -144,6 +133,39 @@ function houseDom(house) {
 // render ele's to HTML
 function renderToDom(elements) {
 	houses.innerHTML = elements;
+}
+
+// if there are no houses found, render a 'no-result' message
+function noResult() {
+	if (results.length < 1) {
+		houses.innerHTML = errorDom();
+		getSuggestions();
+	}
+}
+
+// fill every h3 element with a location nearby
+function getSuggestions() {
+	const suggestions = document.querySelectorAll('h3');
+	suggestions.forEach((sug) => {
+		sug.textContent = newGeoData[j];
+		j++;
+	});
+}
+
+// returns this html as a template string
+function errorDom() {
+	return `
+		<div>
+			<h2>Geen huizen gevonden, jammer zeg</h2>
+			<p class="alt">Zoek anders op 1 van de volgende locaties:</p>
+			<div class="sugs">
+				<h3></h3>
+				<h3></h3>
+				<h3></h3>
+			</div>
+			<button class="restart" onclick="window.location.reload()">Opniew zoeken</button>			
+		</div>
+	`;
 }
 
 // show/hide the options on select
