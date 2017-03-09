@@ -137,7 +137,8 @@ function renderToDom(elements) {
 
 // if there are no houses found, render a 'no-result' message
 function noResult() {
-	if (results.length < 1) {
+	console.log(fundaData);
+	if (fundaData.length < 1) {
 		houses.innerHTML = errorDom();
 		getSuggestions();
 	}
