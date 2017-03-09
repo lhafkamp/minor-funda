@@ -11,6 +11,7 @@ Funda is a <a href="http://www.funda.nl/">website</a> where the user can find a 
 ##What did I do?
 <img src="assets/images/appscreens/mobile.png">
 <br>
+<br>
 I made an alternative filter method where the users answer questions in order to find the house that suits their needs. This solution is made for users that don't have the ability or time to find specific filters on the Funda site.
 
 ##API's that I used
