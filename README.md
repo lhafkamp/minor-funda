@@ -3,12 +3,14 @@ Assignment for Funda made in 4 days.
 
 ##Link to js
 <a href="https://github.com/lhafkamp/minor-funda/blob/master/assets/js/script.js">
+https://github.com/lhafkamp/minor-funda/blob/master/assets/js/script.js</a>
 
 ##Who is Funda?
 Funda is a <a href="http://www.funda.nl/">website</a> where the user can find a new place to live.
 
 ##What did I do?
 <img src="assets/images/appscreens/mobile.png">
+<br>
 I made an alternative filter method where the users answer questions in order to find the house that suits their needs. This solution is made for users that don't have the ability or time to find specific filters on the Funda site.
 
 ##API's that I used
