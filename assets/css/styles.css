@@ -12,6 +12,25 @@ body {
 	font-family: 'funda', sans-serif;
 }
 
+.houses div p:nth-child(3) {
+	padding: .5em;
+	background: #F7A100;
+	z-index: 200;
+	color: white;
+}
+
+.houses div p:nth-child(1) {
+	color: white;
+	padding: .5em;
+	border-radius: .3em;
+	top: 1;
+	position: absolute;
+	width: min-content;
+	background: #F7A100;
+	transform: rotate(-30deg);
+	z-index: 200;
+}
+
 @keyframes points {
 	0% {
 		opacity: 0;
@@ -23,6 +42,7 @@ body {
 
 body {
 	height: 100vh;
+	background: #E8F7F7;
 }
 
 span {
@@ -78,7 +98,7 @@ section img {
 }
 
 .houses {
-	margin-top: 2em;
+	margin-top: 4em;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
@@ -97,13 +117,21 @@ section img {
 	padding-bottom: 8em;
 }
 
-@media (max-width: 30em) {
+@media (max-width: 35em) {
 	.options div button {
 		width: 80vw;
 	}
 
 	section img {
 		margin-bottom: -1em;
+	}
+
+	.results {
+		flex-direction: column;
+	}
+
+	.results img {
+		margin-top: .8em;
 	}
 
 	h1 {
@@ -117,7 +145,11 @@ div {
 	text-align: center;
 }
 
-div img:hover {
+div img {
+	width: 20em;
+}
+
+.houses div img:hover {
 	opacity: .8;
 	cursor: pointer;
 }
@@ -147,11 +179,23 @@ button:focus {
 }
 
 .results {
-	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	color: white;
 	font-size: 2em;
 	padding: .5em;
 	background: #F7A100;
+}
+
+.results h1 {
+	font-size: 1em;
+}
+
+.results img,
+.results span {
+	width: 4em;
+	cursor: pointer;
 }
 
 .hide {

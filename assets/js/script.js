@@ -4,7 +4,7 @@ let j = 0;
 let buyOrRentChoice = '';
 let placeChoice = '';
 
-const results = [];
+const fundaData = [];
 const geoData = [];
 const newGeoData = [];
 
@@ -16,7 +16,7 @@ const cities = document.querySelector('.cities');
 const who = document.querySelector('.who');
 const houses = document.querySelector('.houses');
 const options = document.querySelector('.options');
-const ditpast = document.querySelector('.results');
+const results = document.querySelector('.results');
 
 // promise to resolve the geolocation
 const geoPromise = new Promise((resolve, reject) => {
@@ -69,7 +69,7 @@ function convertButtons() {
 function getHousesByQuery(buy, city, music, nature, broke) {
 	fetch(`${fundaUrl}${APIKEY}/?type=${buy}&zo=/${city}${music}${nature}${broke}/&page=1&pagesize=25`)
 		.then(data => data.json())
-		.then(data => results.push(...data.Objects))
+		.then(data => fundaData.push(...data.Objects))
 		.then(data => showData())
 		.then(data => noResult())
 		.catch(error => console.log(error));
@@ -113,7 +113,7 @@ placeButtons.forEach(button => button.addEventListener('click', selectPlace));
 
 // renders the right data into the page 
 function showData() {
-	const newResults = results
+	const newResults = fundaData
 		.map(data => houseDom(data))
 		.join('');
 	renderToDom(newResults);
@@ -123,9 +123,9 @@ function showData() {
 function houseDom(house) {
 	return `
 		<div>
-			<img src="${house.FotoMedium}">
-			<p>${house.Adres}</p>
 			<p>€${house.Prijs.Huurprijs === null ? house.Prijs.Koopprijs : house.Prijs.Huurprijs}</p>
+			<img src="${house.FotoLarge}">
+			<p>${house.Adres}</p>
 		</div>
 	`;
 }
@@ -183,10 +183,12 @@ function showOptions() {
 // hide the choices and show the houses
 function showHouses() {
 	options.classList.add('hide');
-	ditpast.classList.remove('hide');
+	results.classList.remove('hide');
 }
 
 placeButtons.forEach(button => button.addEventListener('click', showBuyOrRent));
 buyOrRentButtons.forEach(button => button.addEventListener('click', showOptions));
 defineButtons.forEach(button => button.addEventListener('click', showHouses));
 
+// refresh the page when you click on the logo
+results.addEventListener('click', () => window.location.reload());
