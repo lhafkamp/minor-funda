@@ -37,6 +37,14 @@ h1 {
 	padding: .2em;
 }
 
+h2 {
+	font-size: 2em;
+	background: #F7A100;
+	color: white;
+	padding: .5em;
+	text-align: center;
+}
+
 button {
 	margin: .2em;
 	cursor: pointer;

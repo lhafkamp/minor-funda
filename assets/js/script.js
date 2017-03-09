@@ -41,7 +41,7 @@ geoPromise
 function getThreeLocations(allData) {
 	allData = geoData
 		.map(data => data.adminName2)
-		.filter((item, index, array) => array.indexOf(item) === index)
+		.filter((data, index, array) => array.indexOf(data) === index)
 		.map(data => newGeoData.push(data));
 }
 
@@ -61,11 +61,29 @@ function convertButtons() {
 }
 
 // fetch the data with changeable parameters
-function getHousesByQuery(buyrent, city, music, nature, broke) {
-	fetch(`${fundaUrl}${APIKEY}/?type=${buyrent}&zo=/${city}${music}${nature}${broke}/&page=1&pagesize=25`)
+function getHousesByQuery(buy, city, music, nature, broke) {
+	fetch(`${fundaUrl}${APIKEY}/?type=${buy}&zo=/${city}${music}${nature}${broke}/&page=1&pagesize=25`)
 		.then(data => data.json())
 		.then(data => results.push(...data.Objects))
-		.then(data => showData());
+		.then(data => showData())
+		.then(data => noResult());
+}
+
+// if there are no houses found, render a 'no-result' message
+function noResult() {
+	if (results.length < 1) {
+		houses.innerHTML = errorDom();
+	}
+}
+
+// returns this html as a template string
+function errorDom() {
+	return `
+		<div>
+			<h2>Geen huizen gevonden, jammer zeg</h2>
+			<button onclick="window.location.reload()">Opniew zoeken</button>
+		</div>
+	`;
 }
 
 // store the selected place
@@ -107,13 +125,12 @@ placeButtons.forEach(button => button.addEventListener('click', selectPlace));
 // renders the right data into the page 
 function showData() {
 	const newResults = results
-		// .map(data => console.log(data))
 		.map(data => houseDom(data))
 		.join('');
 	renderToDom(newResults);
 }
 
-// returns the main html as a template string
+// returns this html as a template string
 function houseDom(house) {
 	return `
 		<div>
@@ -135,6 +152,7 @@ function showBuyOrRent() {
 	buyrent.classList.remove('hide');
 }
 
+// show/hide the options on select
 function showOptions() {
 	buyrent.classList.add('hide');
 	who.classList.remove('hide');
