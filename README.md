@@ -23,6 +23,7 @@ I made an alternative filter method where the users answer questions in order to
 Since this was merely a prototype to show the concept I would have expanded it by making it more detailed and by adding more questions in order to get the correct results. The native Geolocation also doesn't work on mobile because its currently not under a https server. If I had more time I also would have made sure that all my functions would have been pure.
 
 ## The app
+
 ### Finds 3 cities near you depending on your location
 <img src="assets/images/appscreens/loading.png">
 ### Filters on your selected city
